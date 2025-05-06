@@ -1,0 +1,148 @@
+{
+    "rules": [
+       
+      {
+        "_comment1": "JavaScript Rules",
+        "pattern": ".*\\.js$",
+        "actions": ["review", "autoFix"],
+        "description": "'use strict' ile başlamalı, ES6+ sözdizimi (arrow functions, template literals, destructuring) kullanılmalı"
+      },
+      {
+        "pattern": ".*\/components\/.*\\.js$",
+        "actions": ["review"],
+        "description": "Her component ayrı dosyada olmalı, import/export kullanılmalı, atomic design yapısına uymalı"
+      },
+  
+      
+      {
+        "_comment1": "Web Scraping Rules",
+        "pattern": ".*\/scraping\/.*\\.py$",
+        "actions": ["review"],
+        "description": "BeautifulSoup veya Selenium kullanılmalı, rate-limiting (5 req/sn) ve user-agent rotasyonu uygulanmalı"
+      },
+  
+      {
+        "_comment1": "API Calls",
+        "pattern": ".*\/services\/.*\\.js$",
+        "actions": ["review"],
+        "description": "Axios kullanılmalı, endpoint'ler config dosyasında tutulmalı, API key'ler .env dosyasında saklanmalı"
+      },
+  
+      
+      {
+        "_comment1": "Google Maps Integration",
+        "pattern": ".*\/maps\/.*\\.js$",
+        "actions": ["review"],
+        "description": "Geolocation API ile kullanıcıdan izin alınmalı, Directions API kullanılmalı, market ve kullanıcı konumu marker ile gösterilmeli, InfoWindow ile detay bilgisi sunulmalı, sürüş/yürüme/toplu taşıma seçenekleri ve tahmini süre gösterilmeli"
+      },
+  
+      
+      {
+        "_comment1": "UI/UX Rules",
+        "pattern": ".*\/components\/.*\\.js$",
+        "actions": ["review"],
+        "description": "Mobile-first yaklaşım, dark/light mode desteği, props validation yapılmalı, reusable component yapısı korunmalı"
+      },
+  
+      
+      {
+        "_comment1": "State Management",
+        "pattern": ".*\/context\/.*\\.js$",
+        "actions": ["review"],
+        "description": "Context API veya Zustand kullanılmalı, global state sadece paylaşılan veriler için kullanılmalı"
+      },
+  
+      
+      {
+        "_comment1": "Performance",
+        "pattern": ".*\\.js$",
+        "actions": ["review"],
+        "description": "Lazy loading, virtualization, debounce/throttle teknikleri performans için kullanılmalı"
+      },
+  
+      
+      {
+        "_comment1": "Styling Rules",
+        "pattern": ".*\\.css$",
+        "actions": ["review"],
+        "description": "Tailwind CSS kullanılmalı, custom theme olmalı, @apply sadece reusable class'larda kullanılmalı, global CSS yasak, JIT mode aktif olmalı"
+      },
+      {
+        "pattern": ".*\\.js$",
+        "actions": ["review"],
+        "description": "Animasyonlar için sadece Tailwind veya Framer Motion kullanılmalı, CSS-in-JS kullanılmamalı"
+      },
+  
+      
+      {
+        "_comment1": "Code Quality Rules",
+        "pattern": ".*\\.js$",
+        "actions": ["review"],
+        "description": "Kodlar ESLint (Airbnb config) ve Prettier kurallarına uymalı, satır uzunluğu 100 karakteri aşmamalı"
+      },
+  
+      
+      {
+        "_comment1": "Testing",
+        "pattern": ".*\\.test\\.js$",
+        "actions": ["review"],
+        "description": "Unit testler Jest ile yazılmalı, coverage en az %80 olmalı"
+      },
+      {
+        "pattern": ".*\\.cy\\.js$",
+        "actions": ["review"],
+        "description": "E2E testler Cypress ile yazılmalı"
+      },
+  
+      
+      {
+        "_comment1": "Documentation",
+        "pattern": ".*\\.js$",
+        "actions": ["review"],
+        "description": "JSDoc kullanılmalı, complex fonksiyonlar için yorum satırı yazılmalı, README.md detaylı proje bilgisi içermeli"
+      },
+  
+      
+      {
+        "_comment1": "Project Structure",
+        "pattern": ".*",
+        "actions": ["review"],
+        "description": "/src altında components, hooks, utils, services, context, assets klasörleri olmalı ve her biri kendi sorumluluğunu taşımalı"
+      },
+  
+      
+      {
+        "_comment1": "GIT Rules",
+        "pattern": ".*",
+        "actions": ["review"],
+        "description": "Feature branch workflow, semantic commit mesajları ve pre-commit hook'lar (linting, formatting) uygulanmalı"
+      },
+  
+      
+      {
+        "_comment1": "Security Rules",
+        "pattern": ".*\\.js$",
+        "actions": ["review"],
+        "description": "Kullanıcı konumu local storage'da tutulmamalı, API key'ler client-side'da açıkta kalmamalı"
+      },
+      {
+        "pattern": ".*\/scraping\/.*\\.py$",
+        "actions": ["review"],
+        "description": "robots.txt ve TOS kurallarına uyulmalı, veriler en fazla 24 saat cache'lenmeli"
+      },
+  
+      
+      {
+        "_comment1": "Optimization",
+        "pattern": ".*\\.js$",
+        "actions": ["review"],
+        "description": "Code splitting, bundle analiz (Webpack Bundle Analyzer), WebP formatında görseller ve semantic HTML uygulanmalı"
+      },
+      {
+        "pattern": ".*\\.js$",
+        "actions": ["review"],
+        "description": "SEO için SSR/SSG desteği, Schema.org markup ve semantic HTML kullanılmalı"
+      }
+    ]
+  }
+  
