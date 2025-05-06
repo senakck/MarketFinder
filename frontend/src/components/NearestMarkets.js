@@ -8,9 +8,11 @@ const NearestMarkets = ({ markets }) => {
         {markets.map((market, index) => (
           <div key={index} className="market-item">
             <h4>{index + 1}. {market.name}</h4>
-            <p>{market.address}</p>
-            <p>Mesafe: {market.distance} km</p>
-            <p>Süre: {market.duration} dakika</p>
+            <p className="market-address">{market.address}</p>
+            <div className="market-details">
+              <p><strong>Mesafe:</strong> {market.distance.toFixed(1)} km</p>
+              <p><strong>Süre:</strong> {market.duration} dakika</p>
+            </div>
           </div>
         ))}
       </div>

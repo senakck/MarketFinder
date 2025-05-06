@@ -1,5 +1,8 @@
 from flask import Blueprint, jsonify, request
-from ..scraping.scraper import MarketScraper
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from scraping.scraper import MarketScraper
 import googlemaps
 import os
 
@@ -50,13 +53,26 @@ def get_products():
     return jsonify(products)
 
 def get_nearby_stores(lat, lng, radius=5000):
-    """Belirtilen konumun çevresindeki Migros ve A101 mağazalarını bul"""
+    """Belirtilen konumun çevresindeki Migros ve A101 mağazalarını bul
+    
+    Args:
+        lat (float): Enlem
+        lng (float): Boylam
+        radius (int): Yarıçap (metre cinsinden)
+    
+    Returns:
+        list: Mağaza listesi (mesafeler km cinsinden)
+    """
     stores = []
+    radius_km = radius / 1000  # Metre -> KM
+    
+    # Places API için geçerli bir yarıçap kullan (50m - 50km arası)
+    search_radius = min(max(radius * 2, 50), 50000)  # En az 50m, en fazla 50km
     
     # Migros mağazalarını ara
     migros_result = gmaps.places_nearby(
         location=(lat, lng),
-        radius=radius,
+        radius=search_radius,
         keyword='Migros',
         type='store'
     )
@@ -64,33 +80,49 @@ def get_nearby_stores(lat, lng, radius=5000):
     # A101 mağazalarını ara
     a101_result = gmaps.places_nearby(
         location=(lat, lng),
-        radius=radius,
+        radius=search_radius,
         keyword='A101',
         type='store'
     )
     
-    # Sonuçları işle
-    for store in migros_result.get('results', []) + a101_result.get('results', []):
-        # Mesafe matrisini hesapla
-        distance_result = gmaps.distance_matrix(
-            origins=f"{lat},{lng}",
-            destinations=f"{store['geometry']['location']['lat']},{store['geometry']['location']['lng']}",
-            mode="driving"
-        )
-        
-        # İlk rotayı al
-        route = distance_result['rows'][0]['elements'][0]
-        
-        stores.append({
-            'name': 'Migros' if 'Migros' in store['name'] else 'A101',
-            'address': store['vicinity'],
-            'location': {
-                'lat': store['geometry']['location']['lat'],
-                'lng': store['geometry']['location']['lng']
-            },
-            'distance': route['distance']['value'] / 1000,  # km cinsinden
-            'duration': route['duration']['value'] // 60    # dakika cinsinden
-        })
+    # Tüm sonuçları birleştir
+    all_stores = migros_result.get('results', []) + a101_result.get('results', [])
+    
+    # Her mağaza için mesafeyi hesapla ve filtrele
+    for store in all_stores:
+        try:
+            # Mağazanın koordinatlarını al
+            store_lat = store['geometry']['location']['lat']
+            store_lng = store['geometry']['location']['lng']
+            
+            # Mesafe matrisini hesapla
+            distance_result = gmaps.distance_matrix(
+                origins=f"{lat},{lng}",
+                destinations=f"{store_lat},{store_lng}",
+                mode="driving",
+                units="metric"  # Metrik sistem kullan
+            )
+            
+            # İlk rotayı al
+            route = distance_result['rows'][0]['elements'][0]
+            
+            # Mesafeyi km cinsinden hesapla
+            distance_km = route['distance']['value'] / 1000.0
+            
+            # Sadece belirtilen yarıçap içindeki mağazaları ekle
+            if distance_km <= radius_km:
+                stores.append({
+                    'name': 'Migros' if 'Migros' in store['name'] else 'A101',
+                    'address': store['vicinity'],
+                    'location': {
+                        'lat': store_lat,
+                        'lng': store_lng
+                    },
+                    'distance': distance_km,
+                    'duration': route['duration']['value'] // 60    # dakika cinsinden
+                })
+        except Exception as e:
+            print(f"Hata: {e} - Mağaza: {store.get('name', 'Bilinmeyen')}")
     
     return stores
 

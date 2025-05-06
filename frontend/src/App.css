@@ -22,11 +22,11 @@
 }
 
 .radius-control {
-  margin-bottom: 15px;
-  padding: 10px;
   background: white;
+  padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
 }
 
 .radius-control label {
@@ -70,6 +70,40 @@
 .market-item {
   padding: 15px;
   border-bottom: 1px solid #eee;
+  background: white;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.market-item:hover {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+.market-address {
+  font-size: 0.9em;
+  color: #666;
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.market-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.market-details p {
+  margin: 0;
+}
+
+.market-details strong {
+  color: #333;
+  margin-right: 5px;
 }
 
 .market-item:last-child {
